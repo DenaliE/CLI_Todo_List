@@ -8,7 +8,10 @@ do {
     // Iterate through list items
     foreach ($items as $key => $item) {
         // Display each item and a newline
+       
         echo "[{$key}] {$item}\n";
+        
+
     }
 
     // Show the menu options
@@ -16,24 +19,26 @@ do {
 
     // Get the input from user
     // Use trim() to remove whitespace and newlines
-    $input = trim(fgets(STDIN));
+    $input = trim(strtolower (fgets(STDIN)));
+    //could have also used $input = strtoupper(trim(fgets(STDIN)));
 
     // Check for actionable input
-    if ($input == 'N' || $input == 'n') {
+    if ($input == 'n') {
         // Ask for entry
         echo 'Enter item: ';
         // Add entry to list array
         $items[] = trim(fgets(STDIN));
-    } elseif ($input == 'R' || $input == 'r') {
+    } elseif ($input == 'r') {
         // Remove which item?
         echo 'Enter item number to remove: ';
         // Get array key
         $key = trim(fgets(STDIN));
+       
         // Remove from array
         unset($items[$key]);
     }
 // Exit when input is (Q)uit
-} while ($input != 'Q' || $input != 'q');
+} while ($input != 'q');
 
 // Say Goodbye!
 echo "Goodbye!\n";
