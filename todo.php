@@ -3,6 +3,11 @@
 // Create array to hold list of todo items
 $items = array();
 
+//start array key at 1 instead of 0
+$items = [];
+array_unshift($items, "phoney");
+unset($items[0]);
+
 // The loop!
 do {
     // Iterate through list items
