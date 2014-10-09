@@ -18,9 +18,44 @@ return $string;
 
 // The loop!
 function get_input($upper = false){
-        $input = trim(strtoupper (fgets(STDIN)));
-        return $input;
+
+    $input = trim(fgets(STDIN));
+
+    if ($upper == true) {
+        $input = strtoupper($input);
     }
+
+    return $input;
+}
+
+function sort_menu($items, $sorted_input){
+
+    var_dump($sorted_input);
+
+    switch($sorted_input) {
+        case 'a':
+            // Run the sort function on list items.
+            sort($items);
+            //var_dump($items);
+            return $items;
+            break;
+        case 'z':
+            rsort($items);
+            return $items;
+            break;
+        // case 'o':
+        //     $sorted = ;
+        //     return $sorted;
+        //     break;
+        // case 'r':
+        //     $sorted = ;
+        //     return $sorted;
+        //     break;
+    }
+    
+    
+    
+}
 
 
 
@@ -36,7 +71,7 @@ do {
     
 
     // Show the menu options
-    echo '(N)ew item, (R)emove item, (Q)uit : ';
+    echo '(N)ew item, (R)emove item, (S)ort, (Q)uit : ';
 
     // Get the input from user
     // Use trim() to remove whitespace and newlines
@@ -52,14 +87,20 @@ do {
         echo 'Enter item: ';
         // Add entry to list array
         $items[] = trim(fgets(STDIN));
-    } elseif ($input == 'R') {
+    } 
+    elseif ($input == 'R') {
         // Remove which item?
         echo 'Enter item number to remove: ';
         // Get array key
         $key = trim(fgets(STDIN));
-       
-        // Remove from array
+
+         // Remove from array
         unset($items[$key]);
+    }
+    elseif ($input == 'S') {
+        echo 'Enter (A)-Z, (Z)-A, (O)rder entered, or (R)everse  ';
+        $sorted_input = get_input();
+        $items = sort_menu($items, $sorted_input);
     }
 // Exit when input is (Q)uit
 } while ($input != 'Q');
