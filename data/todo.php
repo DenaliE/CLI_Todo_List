@@ -162,9 +162,9 @@ do {
         
         //print_r(open());
         $file_Array = open();
-        print_r(array_merge($items, $file_Array));
-
-    
+        $items = (array_merge($items, $file_Array));
+        print_r($items);
+ 
     }
 // Exit when input is (Q)uit
 } while ($input != 'Q');
