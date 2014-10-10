@@ -61,6 +61,18 @@ function sort_menu($items, $sorted_input) {
     }
 }
 
+function open() {
+        
+        Echo "Please enter file name: ";
+        $filename = "data/".trim(fgets(STDIN));
+        $handle = fopen($filename, 'r');
+        $contents = fread($handle, filesize($filename));
+        $contentsArray = explode("\n", $contents);
+        return $contentsArray;
+        fclose($handle);
+        
+}
+
 function add_new($items) {
 
     // Ask for entry
@@ -68,7 +80,7 @@ function add_new($items) {
     // Add entry to list array
     $new_item = trim(fgets(STDIN));
     
-    echo "Do you want to add your new item to the end or the beggining?".PHP_EOL;
+    echo "Do you want to add your new item to the end or the beginning?".PHP_EOL;
     echo "Enter F for front or B for back.".PHP_EOL;
 
     $input = get_input(true);
@@ -99,7 +111,7 @@ do {
     
    
     // Show the menu options
-    echo '(N)ew item, (R)emove item, (S)ort, (Q)uit : ';
+    echo '(Op)en, (N)ew item, (R)emove item, (S)ort, (Q)uit : ';
 
     // Get the input from user
      $input = get_input(true);
@@ -126,7 +138,7 @@ do {
     elseif ($input == 'S') {
         
         //add option to exit
-        echo 'Enter (A)-Z, (Z)-A, (O)rder entered, or (R)everse  ';
+        echo 'Enter (Op)en, (A)-Z, (Z)-A, (O)rder entered, or (R)everse  ';
         $sorted_input = get_input();
         $items = sort_menu($items, $sorted_input);
     }
@@ -135,6 +147,21 @@ do {
     }
     elseif ($input == 'F') {
         array_pop($items);
+    }
+
+    elseif ($input == 'O') {
+        
+        //add option to reorder list
+        echo 'Enter (A)-Z, (Z)-A, (O)rder entered, or (R)everse  ';
+        $sorted_input = get_input();
+        $items = sort_menu($items, $sorted_input);
+    }
+
+    elseif ($input == 'OP') {
+        //add option to open a file
+       
+        print_r(open($contentsArray));
+        
     }
 // Exit when input is (Q)uit
 } while ($input != 'Q');
