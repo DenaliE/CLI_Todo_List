@@ -16,7 +16,7 @@ function list_items($items) {
 return $string;
 }
 
-// The loop!
+// Make selection input uppercase
 function get_input($upper = false){
 
     $input = trim(fgets(STDIN));
@@ -28,65 +28,91 @@ function get_input($upper = false){
     return $input;
 }
 
-function sort_menu($items, $sorted_input){
+function sort_menu($items, $sorted_input) {
 
-    var_dump($sorted_input);
+    //test var_dump($sorted_input);
 
     switch($sorted_input) {
         case 'a':
             // Run the sort function on list items.
-            sort($items);
+            asort($items);
             //var_dump($items);
             return $items;
             break;
         case 'z':
-            rsort($items);
+            arsort($items);
             return $items;
             break;
-        // case 'o':
+        case 'o':
+            ksort($items);
+            return $items;
+            break;
         //     $sorted = ;
         //     return $sorted;
         //     break;
-        // case 'r':
+        case 'r':
+             krsort($items);
+             return $items;
+             break;
+                
         //     $sorted = ;
         //     return $sorted;
         //     break;
     }
-    
-    
-    
 }
 
+function add_new($items) {
 
+    // Ask for entry
+    echo 'Enter item: ';
+    // Add entry to list array
+    $new_item = trim(fgets(STDIN));
+    
+    echo "Do you want to add your new item to the end or the beggining?".PHP_EOL;
+    echo "Enter F for front or B for back.".PHP_EOL;
 
+    $input = get_input(true);
+
+    if ($input == 'F') {
+        
+        array_unshift($items, $new_item);
+        return $items;
+    }
+    elseif ($input == 'B') {
+        
+        array_push($items, $new_item);
+        return $items;
+    }
+    else {
+        // var_dump($items);
+        echo "Please enter either F or B.";
+  
+     }
+}
+// _______________________________________
 do {
     // Iterate through list items
     // foreach ($items as $key => $item) {
     //     // Display each item and a newline
        
-    //     echo "[{$key}] {$item}\n";
-    echo(list_items($items));
-   
-
+    echo list_items($items); 
     
-
+   
     // Show the menu options
     echo '(N)ew item, (R)emove item, (S)ort, (Q)uit : ';
 
     // Get the input from user
+     $input = get_input(true);
     // Use trim() to remove whitespace and newlines
     
 
-    $input = get_input(true);
     // $input = trim(strtoupper(fgets(STDIN)));
     //could have also used $input = strtoupper(trim(fgets(STDIN)));
 
     // Check for actionable input
     if ($input == 'N') {
-        // Ask for entry
-        echo 'Enter item: ';
-        // Add entry to list array
-        $items[] = trim(fgets(STDIN));
+        $items = add_new($items); 
+        //echo "[{$key}] {$item}\n";
     } 
     elseif ($input == 'R') {
         // Remove which item?
@@ -98,9 +124,17 @@ do {
         unset($items[$key]);
     }
     elseif ($input == 'S') {
+        
+        //add option to exit
         echo 'Enter (A)-Z, (Z)-A, (O)rder entered, or (R)everse  ';
         $sorted_input = get_input();
         $items = sort_menu($items, $sorted_input);
+    }
+    elseif ($input == 'L') {
+        array_unshift($items);
+    }
+    elseif ($input == 'F') {
+        array_pop($items);
     }
 // Exit when input is (Q)uit
 } while ($input != 'Q');
