@@ -160,8 +160,11 @@ do {
     elseif ($input == 'OP') {
         //add option to open a file
         
-        print_r(open());
-        
+        //print_r(open());
+        $file_Array = open();
+        print_r(array_merge($items, $file_Array));
+
+    
     }
 // Exit when input is (Q)uit
 } while ($input != 'Q');
