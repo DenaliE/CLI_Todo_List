@@ -163,7 +163,7 @@ do {
         //print_r(open());
         $file_Array = open();
         $items = (array_merge($items, $file_Array));
-        print_r($items);
+        $new_list = implode("\n", $items);
  
     }
 // Exit when input is (Q)uit
