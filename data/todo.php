@@ -1,18 +1,16 @@
 <?php
-//start array key at 1 instead of 0
-$items = [];
-array_unshift($items, "phoney");
-unset($items[0]);
-
 // Create array to hold list of todo items
-
+$items = [];
 
 // Iterate through list items
 function list_items($items) {
     $string = '';
     foreach ($items as $key => $item) {
+        $key++;
         $string .= "[{$key}] {$item}". PHP_EOL;
+
     }
+    
 return $string;
 }
 
@@ -63,7 +61,7 @@ function sort_menu($items, $sorted_input) {
 
 function open() {
         
-        Echo "Please enter file name: ";
+        
         $filename = get_input();
         $handle = fopen($filename, 'r');
         $contents = fread($handle, filesize($filename));
@@ -91,28 +89,19 @@ function open() {
 
 
 function save($items) {
-    echo "Choose a file to save: ";
-    $filename = get_input();
-    $handle = fopen($filename, 'w');
+    
+    
 
-    foreach($items as $text) {
-        fwrite($handle, $text . PHP_EOL);
-    }
-
-   
-    fclose($handle);
 }
+
 
 function add_new($items) {
 
-    // Ask for entry
-    echo 'Enter item: ';
-    // Add entry to list array
-    $new_item = trim(fgets(STDIN));
     
+    // Add entry to list array
+    $new_item = get_input();
     echo "Do you want to add your new item to the end or the beginning?".PHP_EOL;
     echo "Enter F for front or B for back.".PHP_EOL;
-
     $input = get_input(true);
 
     if ($input == 'F') {
@@ -153,15 +142,17 @@ do {
 
     // Check for actionable input
     if ($input == 'N') {
-        $items = add_new($items); 
-        //echo "[{$key}] {$item}\n";
+        // Ask for entry
+        echo 'Enter item: ';
+        
+        $items = add_new($items);    
     } 
     elseif ($input == 'R') {
         // Remove which item?
         echo 'Enter item number to remove: ';
         // Get array key
-        $key = trim(fgets(STDIN));
-
+        $key = get_input();
+        $key--;
          // Remove from array
         unset($items[$key]);
     }
@@ -189,7 +180,7 @@ do {
 
     elseif ($input == 'OP') {
         //add option to open a file
-        
+        echo "Please enter file name: ";
         //print_r(open());
         $fileArray = open();
         $items = (array_merge($items, $fileArray));
@@ -197,11 +188,35 @@ do {
     }
     
     elseif ($input == 'SA') {
-
-       save($items);
+        echo "Choose a file to save: ";
+        $filename = strtolower(get_input());
+        //I don't understand this line. Ask Ryan.
+        //$fileName = $items[0];
         
+        if (file_exists($filename)){
+                echo "You are about to overwrite this file. Do you want to proceed? Enter Y for yes or any other key for no.";
+                
+                if (get_input() == "Y"){
 
+                    $handle = fopen($input, 'w');
+                    fclose($handle);   
+                   
+                } 
+                else {
+                    break;
+                }
+        } 
+        else {
+            $handle = fopen($input, 'a');
+            foreach ($items as $item) {
+                fwrite($handle, PHP_EOL . $item);
+            }
+            fclose($handle);
+        }
+        
     }
+        
+        
 // Exit when input is (Q)uit
 } while ($input != 'Q');
 
